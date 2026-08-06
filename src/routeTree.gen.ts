@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DrainageRouteImport } from './routes/drainage'
 import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
 import { Route as HousingRouteImport } from './routes/housing'
 import { Route as MissionPerformanceRouteImport } from './routes/mission-performance'
@@ -20,6 +21,11 @@ import { Route as UrbanHealthRouteImport } from './routes/urban-health'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DrainageRoute = DrainageRouteImport.update({
+  id: '/drainage',
+  path: '/drainage',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FundUtilisationRoute = FundUtilisationRouteImport.update({
@@ -55,6 +61,7 @@ const UrbanHealthRoute = UrbanHealthRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/drainage'
     | '/fund-utilisation'
     | '/housing'
     | '/mission-performance'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/drainage'
     | '/fund-utilisation'
     | '/housing'
     | '/mission-performance'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/drainage'
     | '/fund-utilisation'
     | '/housing'
     | '/mission-performance'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DrainageRoute: typeof DrainageRoute
   FundUtilisationRoute: typeof FundUtilisationRoute
   HousingRoute: typeof HousingRoute
   MissionPerformanceRoute: typeof MissionPerformanceRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drainage': {
+      id: '/drainage'
+      path: '/drainage'
+      fullPath: '/drainage'
+      preLoaderRoute: typeof DrainageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fund-utilisation': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DrainageRoute: DrainageRoute,
   FundUtilisationRoute: FundUtilisationRoute,
   HousingRoute: HousingRoute,
   MissionPerformanceRoute: MissionPerformanceRoute,
