@@ -32,7 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useDistrict } from "@/lib/district-context";
-import { exceptions, ulbPerformance } from "@/lib/suda-data";
+import { ALL_DISTRICTS, exceptions, ulbPerformance } from "@/lib/suda-data";
 
 export const Route = createFileRoute("/ulb-performance")({
   head: () => ({
