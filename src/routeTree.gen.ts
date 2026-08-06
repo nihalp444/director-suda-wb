@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
 import { Route as UlbPerformanceRouteImport } from './routes/ulb-performance'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FundUtilisationRoute = FundUtilisationRouteImport.update({
+  id: '/fund-utilisation',
+  path: '/fund-utilisation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UlbPerformanceRoute = UlbPerformanceRouteImport.update({
@@ -25,27 +31,31 @@ const UlbPerformanceRoute = UlbPerformanceRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/fund-utilisation': typeof FundUtilisationRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/fund-utilisation': typeof FundUtilisationRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/fund-utilisation': typeof FundUtilisationRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ulb-performance'
+  fullPaths: '/' | '/fund-utilisation' | '/ulb-performance'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ulb-performance'
-  id: '__root__' | '/' | '/ulb-performance'
+  to: '/' | '/fund-utilisation' | '/ulb-performance'
+  id: '__root__' | '/' | '/fund-utilisation' | '/ulb-performance'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FundUtilisationRoute: typeof FundUtilisationRoute
   UlbPerformanceRoute: typeof UlbPerformanceRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fund-utilisation': {
+      id: '/fund-utilisation'
+      path: '/fund-utilisation'
+      fullPath: '/fund-utilisation'
+      preLoaderRoute: typeof FundUtilisationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ulb-performance': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FundUtilisationRoute: FundUtilisationRoute,
   UlbPerformanceRoute: UlbPerformanceRoute,
 }
 export const routeTree = rootRouteImport
