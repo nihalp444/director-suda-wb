@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DrainageRouteImport } from './routes/drainage'
 import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
+import { Route as GrievanceRouteImport } from './routes/grievance'
 import { Route as HousingRouteImport } from './routes/housing'
 import { Route as MissionPerformanceRouteImport } from './routes/mission-performance'
 import { Route as SolidWasteRouteImport } from './routes/solid-waste'
@@ -31,6 +32,11 @@ const DrainageRoute = DrainageRouteImport.update({
 const FundUtilisationRoute = FundUtilisationRouteImport.update({
   id: '/fund-utilisation',
   path: '/fund-utilisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GrievanceRoute = GrievanceRouteImport.update({
+  id: '/grievance',
+  path: '/grievance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HousingRoute = HousingRouteImport.update({
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/grievance': typeof GrievanceRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/grievance': typeof GrievanceRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/grievance': typeof GrievanceRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/drainage'
     | '/fund-utilisation'
+    | '/grievance'
     | '/housing'
     | '/mission-performance'
     | '/solid-waste'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/drainage'
     | '/fund-utilisation'
+    | '/grievance'
     | '/housing'
     | '/mission-performance'
     | '/solid-waste'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/drainage'
     | '/fund-utilisation'
+    | '/grievance'
     | '/housing'
     | '/mission-performance'
     | '/solid-waste'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DrainageRoute: typeof DrainageRoute
   FundUtilisationRoute: typeof FundUtilisationRoute
+  GrievanceRoute: typeof GrievanceRoute
   HousingRoute: typeof HousingRoute
   MissionPerformanceRoute: typeof MissionPerformanceRoute
   SolidWasteRoute: typeof SolidWasteRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/fund-utilisation'
       fullPath: '/fund-utilisation'
       preLoaderRoute: typeof FundUtilisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/grievance': {
+      id: '/grievance'
+      path: '/grievance'
+      fullPath: '/grievance'
+      preLoaderRoute: typeof GrievanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/housing': {
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DrainageRoute: DrainageRoute,
   FundUtilisationRoute: FundUtilisationRoute,
+  GrievanceRoute: GrievanceRoute,
   HousingRoute: HousingRoute,
   MissionPerformanceRoute: MissionPerformanceRoute,
   SolidWasteRoute: SolidWasteRoute,
