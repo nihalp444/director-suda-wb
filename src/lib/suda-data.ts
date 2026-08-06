@@ -92,6 +92,47 @@ function scale(name: string) {
   return p.urbanPopLakh / 10;
 }
 
+/** District's share of state urban population (1 for the state view). */
+export function share(name: string): number {
+  if (name === ALL_DISTRICTS) return 1;
+  const total = DISTRICTS.reduce((s, d) => s + d.urbanPopLakh, 0);
+  return districtProfile(name).urbanPopLakh / total;
+}
+
+/**
+ * State-level fund position for the current financial year (₹ lakh),
+ * as reported in the SUDA / UD&MA consolidated utilisation statement.
+ */
+export const STATE_FY_FUNDS = {
+  allocation: 82967.5,
+  released: 28886.88,
+  utilised: 20393.59,
+  utilisationRate: 70.6,
+} as const;
+
+/** Cumulative mission-wise fund position (₹ lakh). */
+export const STATE_SCHEME_FUNDS = [
+  { scheme: "PMAY-U / Banglar Bari", allocation: 43850, released: 39420, utilised: 30360, ucPending: 9060 },
+  { scheme: "AMRUT 2.0", allocation: 61980, released: 52760, utilised: 40620, ucPending: 12140 },
+  { scheme: "SBM-U 2.0 (Mission Nirmal Bangla)", allocation: 84600, released: 69300, utilised: 39500, ucPending: 29800 },
+  { scheme: "DAY-NULM", allocation: 82400, released: 64500, utilised: 45800, ucPending: 18700 },
+  { scheme: "NUHM", allocation: 88900, released: 73200, utilised: 38060, ucPending: 35140 },
+  { scheme: "UPHC Strengthening", allocation: 31400, released: 27800, utilised: 22240, ucPending: 5560 },
+  { scheme: "CBPHC", allocation: 80300, released: 64700, utilised: 31700, ucPending: 33000 },
+  { scheme: "NVBDCP", allocation: 83600, released: 55900, utilised: 25710, ucPending: 30190 },
+  { scheme: "Solid Waste Management", allocation: 41200, released: 34500, utilised: 20010, ucPending: 14490 },
+] as const;
+
+/** PMAY-U / Banglar Bari physical & financial position for West Bengal. */
+export const STATE_HOUSING = {
+  sanctioned: 668953,
+  grounded: 612998,
+  completed: 400257,
+  occupied: 400161,
+  centralApprovedCr: 10773.5,
+  centralReleasedCr: 7675.93,
+} as const;
+
 /* ---------------- shared vocabulary ---------------- */
 
 export const MISSIONS = [
