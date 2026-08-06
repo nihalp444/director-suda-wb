@@ -54,7 +54,7 @@ export function districtProfile(name: string) {
       urbanPopLakh: +DISTRICTS.reduce((s, d) => s + d.urbanPopLakh, 0).toFixed(1),
     } as District;
   }
-  return getDistrict(name) ?? DISTRICTS[0];
+  return getDistrict(name) ?? DISTRICTS[0]!;
 }
 
 /* ---------------- deterministic pseudo randomness ---------------- */
@@ -75,7 +75,7 @@ export function rand(seed: string, min: number, max: number, decimals = 0): numb
 }
 
 export function pick<T>(seed: string, arr: T[]): T {
-  return arr[hash(seed) % arr.length];
+  return arr[hash(seed) % arr.length]!;
 }
 
 function scale(name: string) {
@@ -144,7 +144,7 @@ export function ulbNames(district: string): string[] {
     district === ALL_DISTRICTS
       ? ["Kolkata MC", "Howrah MC", "Bidhannagar MC", "Siliguri MC", "Asansol MC", "Durgapur MC", "Barrackpore", "Baruipur", "Kalyani", "Berhampore", "Chandannagar", "Habra"]
       : Array.from({ length: Math.min(12, Math.max(4, p.ulbs)) }, (_, i) =>
-          `${district.split(" ")[0]} ${["Municipality", "Municipality (N)", "Municipality (S)", "Notified Area", "MC", "Municipality (E)", "Municipality (W)", "Municipality-II", "Municipality-III", "Municipality-IV", "Municipality-V", "Municipality-VI"][i]}`,
+          `${district.split(" ")[0]!} ${["Municipality", "Municipality (N)", "Municipality (S)", "Notified Area", "MC", "Municipality (E)", "Municipality (W)", "Municipality-II", "Municipality-III", "Municipality-IV", "Municipality-V", "Municipality-VI"][i]!}`,
         );
   return base;
 }
@@ -233,14 +233,14 @@ export function exceptions(district: string, topic: string, count = 6): Exceptio
       "Compliance report overdue",
     ],
   };
-  const pool = issues[topic] ?? issues.general;
+  const pool = issues[topic] ?? issues['general']!;
   return Array.from({ length: count }, (_, i) => {
     const s = `${district}-${topic}-${i}`;
     return {
       id: `EX-${rand(s + "id", 10000, 99999)}`,
-      issue: pool[i % pool.length],
-      ulb: ulbs[i % ulbs.length],
-      location: `Ward ${rand(s + "w", 1, 40)}, ${ulbs[i % ulbs.length]}`,
+      issue: pool[i % pool.length]!,
+      ulb: ulbs[i % ulbs.length]!,
+      location: `Ward ${rand(s + "w", 1, 40)}, ${ulbs[i % ulbs.length]!}`,
       officer: pick(s + "o", OFFICERS),
       action: pick(s + "a", ACTIONS),
       deadline: `${rand(s + "d", 1, 28)} ${pick(s + "m", ["Aug", "Sep", "Oct"])} 2026`,
