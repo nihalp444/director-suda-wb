@@ -1,5 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Bar, BarChart, CartesianGrid, Cell, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import {
   CHART_COLORS,
   ExceptionTable,
@@ -34,6 +46,13 @@ export const Route = createFileRoute("/data-quality")({
 function Page() {
   const { district } = useDistrict();
   const d = dataQuality(district);
+  const score = +((d.kpis.completeness + d.kpis.timeliness + d.kpis.accuracy) / 3).toFixed(1);
+  const dimensions = [
+    { dimension: "Completeness", score: d.kpis.completeness },
+    { dimension: "Timeliness", score: d.kpis.timeliness },
+    { dimension: "Accuracy", score: d.kpis.accuracy },
+    { dimension: "API uptime", score: d.kpis.apiUptime },
+  ];
 
   return (
     <div className="mx-auto max-w-[1600px]">
@@ -45,29 +64,42 @@ function Page() {
       <div className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         <KpiCard
           label="Overall data quality score"
-          value={d.kpis.score}
+          value={score}
           unit="/ 100"
-          progress={d.kpis.score}
-          tone={ragOf(d.kpis.score, 65, 85) === "green" ? "good" : "warn"}
+          progress={score}
+          tone={ragOf(score, 65, 85) === "green" ? "good" : "warn"}
           delta={2.9}
         />
-        <KpiCard label="ULBs reporting on time" value={d.kpis.onTimeUlbs} unit="%" progress={d.kpis.onTimeUlbs} />
         <KpiCard label="Record completeness" value={d.kpis.completeness} unit="%" progress={d.kpis.completeness} />
-        <KpiCard label="Records with mismatch" value={d.kpis.mismatches.toLocaleString("en-IN")} unit="records" tone="bad" />
-        <KpiCard label="Systems integrated" value={d.kpis.systemsIntegrated} unit="portals" tone="good" />
-        <KpiCard label="Stale data feeds" value={d.kpis.staleFeeds} unit="feeds" tone={d.kpis.staleFeeds > 2 ? "bad" : "warn"} />
+        <KpiCard
+          label="Reporting timeliness"
+          value={d.kpis.timeliness}
+          unit="%"
+          progress={d.kpis.timeliness}
+          tone={d.kpis.timeliness < 70 ? "bad" : "warn"}
+        />
+        <KpiCard label="Data accuracy" value={d.kpis.accuracy} unit="%" progress={d.kpis.accuracy} tone="good" />
+        <KpiCard label="Systems integrated" value={d.kpis.integratedSystems} unit="portals" tone="good" />
+        <KpiCard label="Duplicate records" value={d.kpis.duplicateRecords.toLocaleString("en-IN")} unit="records" tone="bad" />
       </div>
 
       <div className="mb-5 grid gap-4 xl:grid-cols-2">
-        <SectionCard title="Dimension-wise quality" description="Completeness, timeliness, accuracy, consistency and validation">
+        <SectionCard title="Dimension-wise quality" description="Completeness, timeliness, accuracy and platform uptime">
           <ResponsiveContainer width="100%" height={310}>
-            <BarChart data={d.dimensions} layout="vertical" margin={{ left: 30 }}>
+            <BarChart data={dimensions} layout="vertical" margin={{ left: 30 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" horizontal={false} />
               <XAxis type="number" domain={[0, 100]} {...axisProps} />
-              <YAxis type="category" dataKey="dimension" width={110} tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }} axisLine={false} tickLine={false} />
+              <YAxis
+                type="category"
+                dataKey="dimension"
+                width={110}
+                tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
+                axisLine={false}
+                tickLine={false}
+              />
               <Tooltip {...tooltipStyle} />
               <Bar dataKey="score" name="Score" radius={[0, 4, 4, 0]}>
-                {d.dimensions.map((_, i) => (
+                {dimensions.map((_, i) => (
                   <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
                 ))}
               </Bar>
@@ -75,16 +107,17 @@ function Page() {
           </ResponsiveContainer>
         </SectionCard>
 
-        <SectionCard title="Module-wise reporting compliance" description="Share of ULBs reporting within the due date">
+        <SectionCard title="Quality trend" description="Completeness and timeliness over the year">
           <ResponsiveContainer width="100%" height={310}>
-            <BarChart data={d.modules} margin={{ bottom: 40 }}>
+            <LineChart data={d.trend}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-              <XAxis dataKey="module" angle={-25} textAnchor="end" height={70} {...axisProps} />
+              <XAxis dataKey="month" {...axisProps} />
               <YAxis {...axisProps} />
               <Tooltip {...tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Bar dataKey="compliance" name="Compliance %" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} />
-            </BarChart>
+              <Line dataKey="completeness" name="Completeness %" stroke="var(--color-chart-1)" strokeWidth={2.5} dot={false} />
+              <Line dataKey="timeliness" name="Timeliness %" stroke="var(--color-chart-3)" strokeWidth={2.5} dot={false} />
+            </LineChart>
           </ResponsiveContainer>
         </SectionCard>
       </div>
@@ -96,21 +129,23 @@ function Page() {
               <TableRow>
                 <TableHead>System</TableHead>
                 <TableHead>Last sync</TableHead>
-                <TableHead className="w-[180px]">Records matched</TableHead>
+                <TableHead className="w-[180px]">Completeness</TableHead>
+                <TableHead className="text-right">Timeliness</TableHead>
                 <TableHead className="text-right">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {d.systems.map((s) => (
-                <TableRow key={s.system}>
-                  <TableCell className="font-medium">{s.system}</TableCell>
+              {d.sources.map((s) => (
+                <TableRow key={s.source}>
+                  <TableCell className="font-medium">{s.source}</TableCell>
                   <TableCell className="text-muted-foreground">{s.lastSync}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <Progress value={s.matchPct} className="h-1.5 w-24" />
-                      <span className="text-xs">{s.matchPct}%</span>
+                      <Progress value={s.completeness} className="h-1.5 w-24" />
+                      <span className="text-xs">{s.completeness}%</span>
                     </div>
                   </TableCell>
+                  <TableCell className="text-right">{s.timeliness}%</TableCell>
                   <TableCell className="text-right">
                     <RagBadge status={s.status} />
                   </TableCell>
