@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
+import { Route as HousingRouteImport } from './routes/housing'
 import { Route as MissionPerformanceRouteImport } from './routes/mission-performance'
 import { Route as SolidWasteRouteImport } from './routes/solid-waste'
 import { Route as UlbPerformanceRouteImport } from './routes/ulb-performance'
@@ -24,6 +25,11 @@ const IndexRoute = IndexRouteImport.update({
 const FundUtilisationRoute = FundUtilisationRouteImport.update({
   id: '/fund-utilisation',
   path: '/fund-utilisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HousingRoute = HousingRouteImport.update({
+  id: '/housing',
+  path: '/housing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MissionPerformanceRoute = MissionPerformanceRouteImport.update({
@@ -50,6 +56,7 @@ const UrbanHealthRoute = UrbanHealthRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/fund-utilisation'
+    | '/housing'
     | '/mission-performance'
     | '/solid-waste'
     | '/ulb-performance'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/fund-utilisation'
+    | '/housing'
     | '/mission-performance'
     | '/solid-waste'
     | '/ulb-performance'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/fund-utilisation'
+    | '/housing'
     | '/mission-performance'
     | '/solid-waste'
     | '/ulb-performance'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FundUtilisationRoute: typeof FundUtilisationRoute
+  HousingRoute: typeof HousingRoute
   MissionPerformanceRoute: typeof MissionPerformanceRoute
   SolidWasteRoute: typeof SolidWasteRoute
   UlbPerformanceRoute: typeof UlbPerformanceRoute
@@ -122,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/fund-utilisation'
       fullPath: '/fund-utilisation'
       preLoaderRoute: typeof FundUtilisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/housing': {
+      id: '/housing'
+      path: '/housing'
+      fullPath: '/housing'
+      preLoaderRoute: typeof HousingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mission-performance': {
@@ -158,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FundUtilisationRoute: FundUtilisationRoute,
+  HousingRoute: HousingRoute,
   MissionPerformanceRoute: MissionPerformanceRoute,
   SolidWasteRoute: SolidWasteRoute,
   UlbPerformanceRoute: UlbPerformanceRoute,
