@@ -46,6 +46,14 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --font-sans: "Inter Tight", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Inter Tight", sans-serif;
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -62,40 +70,51 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --radius: 0.5rem;
+  --background: oklch(0.972 0.014 84);
+  --foreground: oklch(0.26 0.045 40);
+  --card: oklch(0.995 0.006 90);
+  --card-foreground: oklch(0.26 0.045 40);
+  --popover: oklch(0.995 0.006 90);
+  --popover-foreground: oklch(0.26 0.045 40);
+  --primary: oklch(0.56 0.196 33);
+  --primary-foreground: oklch(0.99 0.01 85);
+  --secondary: oklch(0.93 0.028 78);
+  --secondary-foreground: oklch(0.34 0.07 38);
+  --muted: oklch(0.945 0.02 82);
+  --muted-foreground: oklch(0.5 0.038 50);
+  --accent: oklch(0.9 0.055 70);
+  --accent-foreground: oklch(0.32 0.08 38);
+  --destructive: oklch(0.53 0.215 27);
+  --destructive-foreground: oklch(0.99 0.01 85);
+  --border: oklch(0.885 0.026 76);
+  --input: oklch(0.885 0.026 76);
+  --ring: oklch(0.56 0.196 33);
+
+  --success: oklch(0.56 0.13 155);
+  --success-foreground: oklch(0.99 0.01 85);
+  --warning: oklch(0.75 0.16 68);
+  --warning-foreground: oklch(0.26 0.06 45);
+  --info: oklch(0.52 0.11 240);
+  --info-foreground: oklch(0.99 0.01 85);
+  --gradient-brand: linear-gradient(120deg, oklch(0.5 0.2 27), oklch(0.66 0.18 52));
+  --shadow-card: 0 1px 2px oklch(0.4 0.06 40 / 0.06), 0 8px 24px -12px oklch(0.4 0.09 40 / 0.22);
+
+  --chart-1: oklch(0.56 0.196 33);
+  --chart-2: oklch(0.7 0.16 62);
+  --chart-3: oklch(0.56 0.13 155);
+  --chart-4: oklch(0.52 0.11 240);
+  --chart-5: oklch(0.45 0.13 350);
+  --sidebar: oklch(0.31 0.075 34);
+  --sidebar-foreground: oklch(0.95 0.02 80);
+  --sidebar-primary: oklch(0.66 0.18 52);
+  --sidebar-primary-foreground: oklch(0.2 0.05 35);
+  --sidebar-accent: oklch(0.38 0.08 34);
+  --sidebar-accent-foreground: oklch(0.97 0.015 80);
+  --sidebar-border: oklch(0.4 0.07 34);
+  --sidebar-ring: oklch(0.66 0.18 52);
 }
+
 
 .dark {
   --background: oklch(0.129 0.042 264.695);
@@ -140,5 +159,25 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
 }
+
+@utility brand-gradient {
+  background-image: var(--gradient-brand);
+}
+
+@utility card-elevated {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+

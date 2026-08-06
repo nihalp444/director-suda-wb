@@ -10,33 +10,180 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DataQualityRouteImport } from './routes/data-quality'
+import { Route as DrainageRouteImport } from './routes/drainage'
+import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
+import { Route as GrievanceRouteImport } from './routes/grievance'
+import { Route as HousingRouteImport } from './routes/housing'
+import { Route as MissionPerformanceRouteImport } from './routes/mission-performance'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as RevenueRouteImport } from './routes/revenue'
+import { Route as SolidWasteRouteImport } from './routes/solid-waste'
+import { Route as UlbPerformanceRouteImport } from './routes/ulb-performance'
+import { Route as UrbanHealthRouteImport } from './routes/urban-health'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DataQualityRoute = DataQualityRouteImport.update({
+  id: '/data-quality',
+  path: '/data-quality',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DrainageRoute = DrainageRouteImport.update({
+  id: '/drainage',
+  path: '/drainage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FundUtilisationRoute = FundUtilisationRouteImport.update({
+  id: '/fund-utilisation',
+  path: '/fund-utilisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GrievanceRoute = GrievanceRouteImport.update({
+  id: '/grievance',
+  path: '/grievance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HousingRoute = HousingRouteImport.update({
+  id: '/housing',
+  path: '/housing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MissionPerformanceRoute = MissionPerformanceRouteImport.update({
+  id: '/mission-performance',
+  path: '/mission-performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RevenueRoute = RevenueRouteImport.update({
+  id: '/revenue',
+  path: '/revenue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolidWasteRoute = SolidWasteRouteImport.update({
+  id: '/solid-waste',
+  path: '/solid-waste',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UlbPerformanceRoute = UlbPerformanceRouteImport.update({
+  id: '/ulb-performance',
+  path: '/ulb-performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UrbanHealthRoute = UrbanHealthRouteImport.update({
+  id: '/urban-health',
+  path: '/urban-health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/data-quality': typeof DataQualityRoute
+  '/drainage': typeof DrainageRoute
+  '/fund-utilisation': typeof FundUtilisationRoute
+  '/grievance': typeof GrievanceRoute
+  '/housing': typeof HousingRoute
+  '/mission-performance': typeof MissionPerformanceRoute
+  '/projects': typeof ProjectsRoute
+  '/revenue': typeof RevenueRoute
+  '/solid-waste': typeof SolidWasteRoute
+  '/ulb-performance': typeof UlbPerformanceRoute
+  '/urban-health': typeof UrbanHealthRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/data-quality': typeof DataQualityRoute
+  '/drainage': typeof DrainageRoute
+  '/fund-utilisation': typeof FundUtilisationRoute
+  '/grievance': typeof GrievanceRoute
+  '/housing': typeof HousingRoute
+  '/mission-performance': typeof MissionPerformanceRoute
+  '/projects': typeof ProjectsRoute
+  '/revenue': typeof RevenueRoute
+  '/solid-waste': typeof SolidWasteRoute
+  '/ulb-performance': typeof UlbPerformanceRoute
+  '/urban-health': typeof UrbanHealthRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/data-quality': typeof DataQualityRoute
+  '/drainage': typeof DrainageRoute
+  '/fund-utilisation': typeof FundUtilisationRoute
+  '/grievance': typeof GrievanceRoute
+  '/housing': typeof HousingRoute
+  '/mission-performance': typeof MissionPerformanceRoute
+  '/projects': typeof ProjectsRoute
+  '/revenue': typeof RevenueRoute
+  '/solid-waste': typeof SolidWasteRoute
+  '/ulb-performance': typeof UlbPerformanceRoute
+  '/urban-health': typeof UrbanHealthRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/data-quality'
+    | '/drainage'
+    | '/fund-utilisation'
+    | '/grievance'
+    | '/housing'
+    | '/mission-performance'
+    | '/projects'
+    | '/revenue'
+    | '/solid-waste'
+    | '/ulb-performance'
+    | '/urban-health'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/data-quality'
+    | '/drainage'
+    | '/fund-utilisation'
+    | '/grievance'
+    | '/housing'
+    | '/mission-performance'
+    | '/projects'
+    | '/revenue'
+    | '/solid-waste'
+    | '/ulb-performance'
+    | '/urban-health'
+  id:
+    | '__root__'
+    | '/'
+    | '/data-quality'
+    | '/drainage'
+    | '/fund-utilisation'
+    | '/grievance'
+    | '/housing'
+    | '/mission-performance'
+    | '/projects'
+    | '/revenue'
+    | '/solid-waste'
+    | '/ulb-performance'
+    | '/urban-health'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DataQualityRoute: typeof DataQualityRoute
+  DrainageRoute: typeof DrainageRoute
+  FundUtilisationRoute: typeof FundUtilisationRoute
+  GrievanceRoute: typeof GrievanceRoute
+  HousingRoute: typeof HousingRoute
+  MissionPerformanceRoute: typeof MissionPerformanceRoute
+  ProjectsRoute: typeof ProjectsRoute
+  RevenueRoute: typeof RevenueRoute
+  SolidWasteRoute: typeof SolidWasteRoute
+  UlbPerformanceRoute: typeof UlbPerformanceRoute
+  UrbanHealthRoute: typeof UrbanHealthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +195,100 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/data-quality': {
+      id: '/data-quality'
+      path: '/data-quality'
+      fullPath: '/data-quality'
+      preLoaderRoute: typeof DataQualityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drainage': {
+      id: '/drainage'
+      path: '/drainage'
+      fullPath: '/drainage'
+      preLoaderRoute: typeof DrainageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fund-utilisation': {
+      id: '/fund-utilisation'
+      path: '/fund-utilisation'
+      fullPath: '/fund-utilisation'
+      preLoaderRoute: typeof FundUtilisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/grievance': {
+      id: '/grievance'
+      path: '/grievance'
+      fullPath: '/grievance'
+      preLoaderRoute: typeof GrievanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/housing': {
+      id: '/housing'
+      path: '/housing'
+      fullPath: '/housing'
+      preLoaderRoute: typeof HousingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mission-performance': {
+      id: '/mission-performance'
+      path: '/mission-performance'
+      fullPath: '/mission-performance'
+      preLoaderRoute: typeof MissionPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/revenue': {
+      id: '/revenue'
+      path: '/revenue'
+      fullPath: '/revenue'
+      preLoaderRoute: typeof RevenueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solid-waste': {
+      id: '/solid-waste'
+      path: '/solid-waste'
+      fullPath: '/solid-waste'
+      preLoaderRoute: typeof SolidWasteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ulb-performance': {
+      id: '/ulb-performance'
+      path: '/ulb-performance'
+      fullPath: '/ulb-performance'
+      preLoaderRoute: typeof UlbPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/urban-health': {
+      id: '/urban-health'
+      path: '/urban-health'
+      fullPath: '/urban-health'
+      preLoaderRoute: typeof UrbanHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DataQualityRoute: DataQualityRoute,
+  DrainageRoute: DrainageRoute,
+  FundUtilisationRoute: FundUtilisationRoute,
+  GrievanceRoute: GrievanceRoute,
+  HousingRoute: HousingRoute,
+  MissionPerformanceRoute: MissionPerformanceRoute,
+  ProjectsRoute: ProjectsRoute,
+  RevenueRoute: RevenueRoute,
+  SolidWasteRoute: SolidWasteRoute,
+  UlbPerformanceRoute: UlbPerformanceRoute,
+  UrbanHealthRoute: UrbanHealthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
