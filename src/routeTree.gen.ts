@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
 import { Route as MissionPerformanceRouteImport } from './routes/mission-performance'
+import { Route as SolidWasteRouteImport } from './routes/solid-waste'
 import { Route as UlbPerformanceRouteImport } from './routes/ulb-performance'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const MissionPerformanceRoute = MissionPerformanceRouteImport.update({
   path: '/mission-performance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SolidWasteRoute = SolidWasteRouteImport.update({
+  id: '/solid-waste',
+  path: '/solid-waste',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UlbPerformanceRoute = UlbPerformanceRouteImport.update({
   id: '/ulb-performance',
   path: '/ulb-performance',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/mission-performance': typeof MissionPerformanceRoute
+  '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/mission-performance': typeof MissionPerformanceRoute
+  '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRoutesById {
@@ -52,19 +60,30 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/mission-performance': typeof MissionPerformanceRoute
+  '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/fund-utilisation' | '/mission-performance' | '/ulb-performance'
+    | '/'
+    | '/fund-utilisation'
+    | '/mission-performance'
+    | '/solid-waste'
+    | '/ulb-performance'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fund-utilisation' | '/mission-performance' | '/ulb-performance'
+  to:
+    | '/'
+    | '/fund-utilisation'
+    | '/mission-performance'
+    | '/solid-waste'
+    | '/ulb-performance'
   id:
     | '__root__'
     | '/'
     | '/fund-utilisation'
     | '/mission-performance'
+    | '/solid-waste'
     | '/ulb-performance'
   fileRoutesById: FileRoutesById
 }
@@ -72,6 +91,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FundUtilisationRoute: typeof FundUtilisationRoute
   MissionPerformanceRoute: typeof MissionPerformanceRoute
+  SolidWasteRoute: typeof SolidWasteRoute
   UlbPerformanceRoute: typeof UlbPerformanceRoute
 }
 
@@ -98,6 +118,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MissionPerformanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/solid-waste': {
+      id: '/solid-waste'
+      path: '/solid-waste'
+      fullPath: '/solid-waste'
+      preLoaderRoute: typeof SolidWasteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ulb-performance': {
       id: '/ulb-performance'
       path: '/ulb-performance'
@@ -112,6 +139,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FundUtilisationRoute: FundUtilisationRoute,
   MissionPerformanceRoute: MissionPerformanceRoute,
+  SolidWasteRoute: SolidWasteRoute,
   UlbPerformanceRoute: UlbPerformanceRoute,
 }
 export const routeTree = rootRouteImport
