@@ -442,29 +442,36 @@ export function urbanHealth(district: string) {
 
 export function housing(district: string) {
   const k = Math.max(0.35, scale(district));
-  const sanctioned = Math.round(rand(district + "hs", 2000, 60000) * k);
-  const grounded = Math.round(sanctioned * rand(district + "hg", 0.7, 0.97, 2));
-  const completed = Math.round(grounded * rand(district + "hcp", 0.4, 0.92, 2));
+  const sh = share(district);
+  const sanctioned = Math.round(STATE_HOUSING.sanctioned * sh);
+  const grounded = Math.round(STATE_HOUSING.grounded * sh);
+  const completed = Math.round(STATE_HOUSING.completed * sh);
+  const occupied = Math.round(STATE_HOUSING.occupied * sh);
   return {
     kpis: {
       sanctioned,
       grounded,
       completed,
-      occupied: Math.round(completed * rand(district + "ho", 0.78, 0.99, 2)),
-      subsidyReleasedCr: +(rand(district + "hsr", 20, 480, 1) * k).toFixed(1),
+      occupied,
+      centralApprovedCr: +(STATE_HOUSING.centralApprovedCr * sh).toFixed(2),
+      centralReleasedCr: +(STATE_HOUSING.centralReleasedCr * sh).toFixed(2),
+      groundingRate: +((grounded / Math.max(1, sanctioned)) * 100).toFixed(2),
+      completionRate: +((completed / Math.max(1, sanctioned)) * 100).toFixed(2),
+      occupancyRate: +((occupied / Math.max(1, completed)) * 100).toFixed(2),
+      subsidyReleasedCr: +(STATE_HOUSING.centralReleasedCr * sh).toFixed(1),
       avgCompletionDays: rand(district + "hd", 240, 720),
     },
     verticals: [
-      { name: "BLC (Banglar Bari)", value: Math.round(sanctioned * 0.55) },
-      { name: "AHP", value: Math.round(sanctioned * 0.22) },
-      { name: "ISSR", value: Math.round(sanctioned * 0.12) },
-      { name: "CLSS", value: Math.round(sanctioned * 0.11) },
+      { name: "BLC (Banglar Bari)", value: Math.round(sanctioned * 0.86) },
+      { name: "AHP", value: Math.round(sanctioned * 0.11) },
+      { name: "ISSR", value: Math.round(sanctioned * 0.01) },
+      { name: "CLSS", value: Math.round(sanctioned * 0.02) },
     ],
     stages: [
       { stage: "Sanctioned", value: sanctioned },
       { stage: "Grounded", value: grounded },
-      { stage: "Plinth", value: Math.round(grounded * 0.82) },
-      { stage: "Roof", value: Math.round(grounded * 0.63) },
+      { stage: "Plinth", value: Math.round(grounded * 0.86) },
+      { stage: "Roof", value: Math.round(grounded * 0.72) },
       { stage: "Completed", value: completed },
     ],
     monthly: MONTHS.map((m, i) => ({
