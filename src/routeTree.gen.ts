@@ -14,6 +14,7 @@ import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
 import { Route as MissionPerformanceRouteImport } from './routes/mission-performance'
 import { Route as SolidWasteRouteImport } from './routes/solid-waste'
 import { Route as UlbPerformanceRouteImport } from './routes/ulb-performance'
+import { Route as UrbanHealthRouteImport } from './routes/urban-health'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const UlbPerformanceRoute = UlbPerformanceRouteImport.update({
   path: '/ulb-performance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UrbanHealthRoute = UrbanHealthRouteImport.update({
+  id: '/urban-health',
+  path: '/urban-health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
+  '/urban-health': typeof UrbanHealthRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
+  '/urban-health': typeof UrbanHealthRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/mission-performance': typeof MissionPerformanceRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
+  '/urban-health': typeof UrbanHealthRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,6 +80,7 @@ export interface FileRouteTypes {
     | '/mission-performance'
     | '/solid-waste'
     | '/ulb-performance'
+    | '/urban-health'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -78,6 +88,7 @@ export interface FileRouteTypes {
     | '/mission-performance'
     | '/solid-waste'
     | '/ulb-performance'
+    | '/urban-health'
   id:
     | '__root__'
     | '/'
@@ -85,6 +96,7 @@ export interface FileRouteTypes {
     | '/mission-performance'
     | '/solid-waste'
     | '/ulb-performance'
+    | '/urban-health'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,6 +105,7 @@ export interface RootRouteChildren {
   MissionPerformanceRoute: typeof MissionPerformanceRoute
   SolidWasteRoute: typeof SolidWasteRoute
   UlbPerformanceRoute: typeof UlbPerformanceRoute
+  UrbanHealthRoute: typeof UrbanHealthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -132,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UlbPerformanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/urban-health': {
+      id: '/urban-health'
+      path: '/urban-health'
+      fullPath: '/urban-health'
+      preLoaderRoute: typeof UrbanHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -141,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   MissionPerformanceRoute: MissionPerformanceRoute,
   SolidWasteRoute: SolidWasteRoute,
   UlbPerformanceRoute: UlbPerformanceRoute,
+  UrbanHealthRoute: UrbanHealthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
