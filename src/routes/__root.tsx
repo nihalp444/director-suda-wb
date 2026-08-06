@@ -119,8 +119,25 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <DistrictProvider>
+        <SidebarProvider>
+          <div className="flex min-h-screen w-full bg-background">
+            <AppSidebar />
+            <div className="flex min-w-0 flex-1 flex-col">
+              <TopBar />
+              <main className="flex-1 px-3 py-5 md:px-6 md:py-6">
+                {/* Required: nested routes render here. */}
+                <Outlet />
+              </main>
+              <footer className="border-t border-border px-4 py-3 text-xs text-muted-foreground md:px-6">
+                State Urban Development Agency, Department of Urban Development & Municipal Affairs, Govt. of West
+                Bengal — indicative dashboard prototype.
+              </footer>
+            </div>
+          </div>
+        </SidebarProvider>
+      </DistrictProvider>
     </QueryClientProvider>
   );
 }
+
