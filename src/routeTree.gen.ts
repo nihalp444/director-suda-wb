@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DataQualityRouteImport } from './routes/data-quality'
 import { Route as DrainageRouteImport } from './routes/drainage'
 import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
 import { Route as GrievanceRouteImport } from './routes/grievance'
@@ -24,6 +25,11 @@ import { Route as UrbanHealthRouteImport } from './routes/urban-health'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataQualityRoute = DataQualityRouteImport.update({
+  id: '/data-quality',
+  path: '/data-quality',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DrainageRoute = DrainageRouteImport.update({
@@ -79,6 +85,7 @@ const UrbanHealthRoute = UrbanHealthRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/data-quality': typeof DataQualityRoute
   '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/grievance': typeof GrievanceRoute
@@ -92,6 +99,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/data-quality': typeof DataQualityRoute
   '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/grievance': typeof GrievanceRoute
@@ -106,6 +114,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/data-quality': typeof DataQualityRoute
   '/drainage': typeof DrainageRoute
   '/fund-utilisation': typeof FundUtilisationRoute
   '/grievance': typeof GrievanceRoute
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/data-quality'
     | '/drainage'
     | '/fund-utilisation'
     | '/grievance'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/data-quality'
     | '/drainage'
     | '/fund-utilisation'
     | '/grievance'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/data-quality'
     | '/drainage'
     | '/fund-utilisation'
     | '/grievance'
@@ -161,6 +173,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DataQualityRoute: typeof DataQualityRoute
   DrainageRoute: typeof DrainageRoute
   FundUtilisationRoute: typeof FundUtilisationRoute
   GrievanceRoute: typeof GrievanceRoute
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-quality': {
+      id: '/data-quality'
+      path: '/data-quality'
+      fullPath: '/data-quality'
+      preLoaderRoute: typeof DataQualityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/drainage': {
@@ -257,6 +277,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DataQualityRoute: DataQualityRoute,
   DrainageRoute: DrainageRoute,
   FundUtilisationRoute: FundUtilisationRoute,
   GrievanceRoute: GrievanceRoute,
