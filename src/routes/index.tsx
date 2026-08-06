@@ -33,7 +33,7 @@ import {
 } from "@/components/suda/ui-kit";
 import { NAV_ITEMS } from "@/components/suda/app-sidebar";
 import { useDistrict } from "@/lib/district-context";
-import { cockpit, ragOf, ulbPerformance } from "@/lib/suda-data";
+import { STATE_FACTS, cockpit, ragOf, ulbPerformance } from "@/lib/suda-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -65,6 +65,18 @@ function Cockpit() {
         title="Urban Operations Cockpit"
         subtitle="Consolidated state-and-district view of every SUDA mission, fund stream, service and incident, with red/amber exceptions surfaced for the Director's decision."
       />
+
+      <div className="card-elevated mb-5 border-l-4 border-l-gold p-4">
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-gold">State jurisdiction</p>
+        <p className="mt-1 text-sm leading-relaxed text-foreground">
+          West Bengal has <span className="font-semibold">{STATE_FACTS.totalUlbs} Urban Local Bodies (ULBs)</span> comprising{" "}
+          <span className="font-semibold">{STATE_FACTS.municipalCorporations} Municipal Corporations</span> and{" "}
+          <span className="font-semibold">{STATE_FACTS.municipalities} Municipalities / Notified Area Authorities</span>, managed
+          under the oversight of the Department of Urban Development &amp; Municipal Affairs through the State Urban Development
+          Agency (SUDA).
+        </p>
+      </div>
+
 
       <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="card-elevated flex items-center gap-3 p-4">

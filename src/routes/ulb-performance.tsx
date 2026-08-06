@@ -32,7 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useDistrict } from "@/lib/district-context";
-import { exceptions, ulbPerformance } from "@/lib/suda-data";
+import { ALL_DISTRICTS, exceptions, ulbPerformance } from "@/lib/suda-data";
 
 export const Route = createFileRoute("/ulb-performance")({
   head: () => ({
@@ -52,10 +52,13 @@ export const Route = createFileRoute("/ulb-performance")({
 
 function Page() {
   const { district } = useDistrict();
-  const rows = ulbPerformance(district);
-  const avg = +(rows.reduce((s, r) => s + r.score, 0) / rows.length).toFixed(1);
-  const green = rows.filter((r) => r.status === "green").length;
-  const red = rows.filter((r) => r.status === "red").length;
+  // Charts stay anchored to the state-wide ULB benchmark set so the visual
+  // baseline never shifts; only the KPI cards respond to the district filter.
+  const rows = ulbPerformance(ALL_DISTRICTS);
+  const districtRows = ulbPerformance(district);
+  const avg = +(districtRows.reduce((s, r) => s + r.score, 0) / districtRows.length).toFixed(1);
+  const green = districtRows.filter((r) => r.status === "green").length;
+  const red = districtRows.filter((r) => r.status === "red").length;
 
   return (
     <div className="mx-auto max-w-[1600px]">
@@ -65,11 +68,12 @@ function Page() {
       />
 
       <div className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="ULBs assessed" value={rows.length} unit="bodies" />
+        <KpiCard label="ULBs assessed" value={districtRows.length} unit="bodies" />
         <KpiCard label="Average composite score" value={avg} unit="/100" progress={avg} delta={1.7} />
         <KpiCard label="Performing (green)" value={green} unit="ULBs" tone="good" />
         <KpiCard label="Needing intervention" value={red} unit="ULBs" tone="bad" />
       </div>
+
 
       <div className="mb-5 grid gap-4 xl:grid-cols-2">
         <SectionCard title="Composite score by ULB" description="Higher is better; state benchmark is 75">

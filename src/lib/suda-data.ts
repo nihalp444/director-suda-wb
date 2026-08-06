@@ -28,15 +28,24 @@ export const DISTRICTS: District[] = [
   { name: "Malda", division: "Malda", ulbs: 2, municipalCorporations: 0, urbanPopLakh: 3.2 },
   { name: "Murshidabad", division: "Presidency", ulbs: 8, municipalCorporations: 0, urbanPopLakh: 9.4 },
   { name: "Nadia", division: "Presidency", ulbs: 11, municipalCorporations: 0, urbanPopLakh: 11.5 },
-  { name: "North 24 Parganas", division: "Presidency", ulbs: 27, municipalCorporations: 4, urbanPopLakh: 57.3 },
-  { name: "Paschim Bardhaman", division: "Burdwan", ulbs: 6, municipalCorporations: 2, urbanPopLakh: 23.1 },
+  { name: "North 24 Parganas", division: "Presidency", ulbs: 27, municipalCorporations: 1, urbanPopLakh: 57.3 },
+  { name: "Paschim Bardhaman", division: "Burdwan", ulbs: 2, municipalCorporations: 2, urbanPopLakh: 23.1 },
   { name: "Paschim Medinipur", division: "Medinipur", ulbs: 8, municipalCorporations: 0, urbanPopLakh: 6.8 },
   { name: "Purba Bardhaman", division: "Burdwan", ulbs: 6, municipalCorporations: 0, urbanPopLakh: 6.2 },
   { name: "Purba Medinipur", division: "Medinipur", ulbs: 5, municipalCorporations: 0, urbanPopLakh: 4.5 },
   { name: "Purulia", division: "Medinipur", ulbs: 3, municipalCorporations: 0, urbanPopLakh: 2.3 },
-  { name: "South 24 Parganas", division: "Presidency", ulbs: 7, municipalCorporations: 1, urbanPopLakh: 20.4 },
+  { name: "South 24 Parganas", division: "Presidency", ulbs: 7, municipalCorporations: 0, urbanPopLakh: 20.4 },
   { name: "Uttar Dinajpur", division: "Malda", ulbs: 4, municipalCorporations: 0, urbanPopLakh: 2.9 },
 ];
+
+/** State-level reference facts (Dept. of UD&MA / SUDA, West Bengal). */
+export const STATE_FACTS = {
+  totalUlbs: 128,
+  municipalCorporations: 7,
+  municipalities: 121,
+  note:
+    "West Bengal has 128 Urban Local Bodies (ULBs) comprising 7 Municipal Corporations and 121 Municipalities / Notified Area Authorities, managed under the oversight of the Department of Urban Development & Municipal Affairs through the State Urban Development Agency (SUDA).",
+} as const;
 
 export const ALL_DISTRICTS = "All Districts (State)";
 
@@ -82,6 +91,47 @@ function scale(name: string) {
   const p = districtProfile(name);
   return p.urbanPopLakh / 10;
 }
+
+/** District's share of state urban population (1 for the state view). */
+export function share(name: string): number {
+  if (name === ALL_DISTRICTS) return 1;
+  const total = DISTRICTS.reduce((s, d) => s + d.urbanPopLakh, 0);
+  return districtProfile(name).urbanPopLakh / total;
+}
+
+/**
+ * State-level fund position for the current financial year (₹ lakh),
+ * as reported in the SUDA / UD&MA consolidated utilisation statement.
+ */
+export const STATE_FY_FUNDS = {
+  allocation: 82967.5,
+  released: 28886.88,
+  utilised: 20393.59,
+  utilisationRate: 70.6,
+} as const;
+
+/** Cumulative mission-wise fund position (₹ lakh). */
+export const STATE_SCHEME_FUNDS = [
+  { scheme: "PMAY-U / Banglar Bari", allocation: 43850, released: 39420, utilised: 30360, ucPending: 9060 },
+  { scheme: "AMRUT 2.0", allocation: 61980, released: 52760, utilised: 40620, ucPending: 12140 },
+  { scheme: "SBM-U 2.0 (Mission Nirmal Bangla)", allocation: 84600, released: 69300, utilised: 39500, ucPending: 29800 },
+  { scheme: "DAY-NULM", allocation: 82400, released: 64500, utilised: 45800, ucPending: 18700 },
+  { scheme: "NUHM", allocation: 88900, released: 73200, utilised: 38060, ucPending: 35140 },
+  { scheme: "UPHC Strengthening", allocation: 31400, released: 27800, utilised: 22240, ucPending: 5560 },
+  { scheme: "CBPHC", allocation: 80300, released: 64700, utilised: 31700, ucPending: 33000 },
+  { scheme: "NVBDCP", allocation: 83600, released: 55900, utilised: 25710, ucPending: 30190 },
+  { scheme: "Solid Waste Management", allocation: 41200, released: 34500, utilised: 20010, ucPending: 14490 },
+] as const;
+
+/** PMAY-U / Banglar Bari physical & financial position for West Bengal. */
+export const STATE_HOUSING = {
+  sanctioned: 668953,
+  grounded: 612998,
+  completed: 400257,
+  occupied: 400161,
+  centralApprovedCr: 10773.5,
+  centralReleasedCr: 7675.93,
+} as const;
 
 /* ---------------- shared vocabulary ---------------- */
 
@@ -306,29 +356,31 @@ export function ulbPerformance(district: string) {
 
 export function fundUtilisation(district: string) {
   const k = Math.max(0.35, scale(district));
-  const schemes = MISSIONS.map((m) => {
-    const s = `${district}-fund-${m}`;
-    const allocation = Math.round(rand(s + "al", 400, 4200) * k);
-    const released = Math.round(allocation * rand(s + "rl", 0.6, 0.98, 2));
-    const utilised = Math.round(released * rand(s + "ut", 0.45, 0.97, 2));
-    const ucPending = Math.round(released - utilised * rand(s + "uc", 0.7, 1, 2));
+  const sh = share(district);
+  const schemes = STATE_SCHEME_FUNDS.map((row) => {
+    const allocation = +(row.allocation * sh).toFixed(2);
+    const released = +(row.released * sh).toFixed(2);
+    const utilised = +(row.utilised * sh).toFixed(2);
+    const ucPending = +(row.ucPending * sh).toFixed(2);
     return {
-      scheme: m,
+      scheme: row.scheme,
       allocation,
       released,
       utilised,
-      ucPending: Math.max(0, ucPending),
+      ucPending,
       utilisationPct: +((utilised / Math.max(1, released)) * 100).toFixed(1),
     };
   });
   return {
     schemes,
     totals: {
-      allocation: schemes.reduce((a, s) => a + s.allocation, 0),
-      released: schemes.reduce((a, s) => a + s.released, 0),
-      utilised: schemes.reduce((a, s) => a + s.utilised, 0),
-      ucPending: schemes.reduce((a, s) => a + s.ucPending, 0),
+      allocation: +(STATE_FY_FUNDS.allocation * sh).toFixed(2),
+      released: +(STATE_FY_FUNDS.released * sh).toFixed(2),
+      utilised: +(STATE_FY_FUNDS.utilised * sh).toFixed(2),
+      ucPending: +((STATE_FY_FUNDS.released - STATE_FY_FUNDS.utilised) * sh).toFixed(2),
+      utilisationRate: STATE_FY_FUNDS.utilisationRate,
     },
+
     ageing: [
       { bucket: "0-3 months", value: Math.round(rand(district + "a1", 40, 300) * k) },
       { bucket: "3-6 months", value: Math.round(rand(district + "a2", 30, 220) * k) },
@@ -433,29 +485,36 @@ export function urbanHealth(district: string) {
 
 export function housing(district: string) {
   const k = Math.max(0.35, scale(district));
-  const sanctioned = Math.round(rand(district + "hs", 2000, 60000) * k);
-  const grounded = Math.round(sanctioned * rand(district + "hg", 0.7, 0.97, 2));
-  const completed = Math.round(grounded * rand(district + "hcp", 0.4, 0.92, 2));
+  const sh = share(district);
+  const sanctioned = Math.round(STATE_HOUSING.sanctioned * sh);
+  const grounded = Math.round(STATE_HOUSING.grounded * sh);
+  const completed = Math.round(STATE_HOUSING.completed * sh);
+  const occupied = Math.round(STATE_HOUSING.occupied * sh);
   return {
     kpis: {
       sanctioned,
       grounded,
       completed,
-      occupied: Math.round(completed * rand(district + "ho", 0.78, 0.99, 2)),
-      subsidyReleasedCr: +(rand(district + "hsr", 20, 480, 1) * k).toFixed(1),
+      occupied,
+      centralApprovedCr: +(STATE_HOUSING.centralApprovedCr * sh).toFixed(2),
+      centralReleasedCr: +(STATE_HOUSING.centralReleasedCr * sh).toFixed(2),
+      groundingRate: +((grounded / Math.max(1, sanctioned)) * 100).toFixed(2),
+      completionRate: +((completed / Math.max(1, sanctioned)) * 100).toFixed(2),
+      occupancyRate: +((occupied / Math.max(1, completed)) * 100).toFixed(2),
+      subsidyReleasedCr: +(STATE_HOUSING.centralReleasedCr * sh).toFixed(1),
       avgCompletionDays: rand(district + "hd", 240, 720),
     },
     verticals: [
-      { name: "BLC (Banglar Bari)", value: Math.round(sanctioned * 0.55) },
-      { name: "AHP", value: Math.round(sanctioned * 0.22) },
-      { name: "ISSR", value: Math.round(sanctioned * 0.12) },
-      { name: "CLSS", value: Math.round(sanctioned * 0.11) },
+      { name: "BLC (Banglar Bari)", value: Math.round(sanctioned * 0.86) },
+      { name: "AHP", value: Math.round(sanctioned * 0.11) },
+      { name: "ISSR", value: Math.round(sanctioned * 0.01) },
+      { name: "CLSS", value: Math.round(sanctioned * 0.02) },
     ],
     stages: [
       { stage: "Sanctioned", value: sanctioned },
       { stage: "Grounded", value: grounded },
-      { stage: "Plinth", value: Math.round(grounded * 0.82) },
-      { stage: "Roof", value: Math.round(grounded * 0.63) },
+      { stage: "Plinth", value: Math.round(grounded * 0.86) },
+      { stage: "Roof", value: Math.round(grounded * 0.72) },
       { stage: "Completed", value: completed },
     ],
     monthly: MONTHS.map((m, i) => ({
@@ -463,12 +522,16 @@ export function housing(district: string) {
       completed: Math.round(rand(`${district}hm${i}`, 50, 1200) * k),
       instalments: Math.round(rand(`${district}hi${i}`, 80, 1600) * k),
     })),
-    ulbs: ulbNames(district).map((u) => ({
-      ulb: u,
-      sanctioned: Math.round(rand(`${district}${u}s`, 200, 5000)),
-      completed: Math.round(rand(`${district}${u}c`, 80, 4200)),
-      geoTagPct: rand(`${district}${u}g`, 55, 100, 1),
-    })),
+    ulbs: ulbNames(district).map((u) => {
+      const s = Math.round(rand(`${district}${u}s`, 200, 5000));
+      return {
+        ulb: u,
+        sanctioned: s,
+        completed: Math.round((s * rand(`${district}${u}c`, 38, 82, 1)) / 100),
+        geoTagPct: rand(`${district}${u}g`, 55, 100, 1),
+      };
+    }),
+
     exceptions: exceptions(district, "housing", 6),
   };
 }
