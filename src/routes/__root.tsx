@@ -11,6 +11,10 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { DistrictProvider } from "@/lib/district-context";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/suda/app-sidebar";
+import { TopBar } from "@/components/suda/top-bar";
 
 function NotFoundComponent() {
   return (
