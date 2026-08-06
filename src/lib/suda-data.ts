@@ -28,15 +28,24 @@ export const DISTRICTS: District[] = [
   { name: "Malda", division: "Malda", ulbs: 2, municipalCorporations: 0, urbanPopLakh: 3.2 },
   { name: "Murshidabad", division: "Presidency", ulbs: 8, municipalCorporations: 0, urbanPopLakh: 9.4 },
   { name: "Nadia", division: "Presidency", ulbs: 11, municipalCorporations: 0, urbanPopLakh: 11.5 },
-  { name: "North 24 Parganas", division: "Presidency", ulbs: 27, municipalCorporations: 4, urbanPopLakh: 57.3 },
-  { name: "Paschim Bardhaman", division: "Burdwan", ulbs: 6, municipalCorporations: 2, urbanPopLakh: 23.1 },
+  { name: "North 24 Parganas", division: "Presidency", ulbs: 27, municipalCorporations: 1, urbanPopLakh: 57.3 },
+  { name: "Paschim Bardhaman", division: "Burdwan", ulbs: 2, municipalCorporations: 2, urbanPopLakh: 23.1 },
   { name: "Paschim Medinipur", division: "Medinipur", ulbs: 8, municipalCorporations: 0, urbanPopLakh: 6.8 },
   { name: "Purba Bardhaman", division: "Burdwan", ulbs: 6, municipalCorporations: 0, urbanPopLakh: 6.2 },
   { name: "Purba Medinipur", division: "Medinipur", ulbs: 5, municipalCorporations: 0, urbanPopLakh: 4.5 },
   { name: "Purulia", division: "Medinipur", ulbs: 3, municipalCorporations: 0, urbanPopLakh: 2.3 },
-  { name: "South 24 Parganas", division: "Presidency", ulbs: 7, municipalCorporations: 1, urbanPopLakh: 20.4 },
+  { name: "South 24 Parganas", division: "Presidency", ulbs: 7, municipalCorporations: 0, urbanPopLakh: 20.4 },
   { name: "Uttar Dinajpur", division: "Malda", ulbs: 4, municipalCorporations: 0, urbanPopLakh: 2.9 },
 ];
+
+/** State-level reference facts (Dept. of UD&MA / SUDA, West Bengal). */
+export const STATE_FACTS = {
+  totalUlbs: 128,
+  municipalCorporations: 7,
+  municipalities: 121,
+  note:
+    "West Bengal has 128 Urban Local Bodies (ULBs) comprising 7 Municipal Corporations and 121 Municipalities / Notified Area Authorities, managed under the oversight of the Department of Urban Development & Municipal Affairs through the State Urban Development Agency (SUDA).",
+} as const;
 
 export const ALL_DISTRICTS = "All Districts (State)";
 
