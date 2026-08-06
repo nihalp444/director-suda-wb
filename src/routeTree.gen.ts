@@ -15,6 +15,7 @@ import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
 import { Route as GrievanceRouteImport } from './routes/grievance'
 import { Route as HousingRouteImport } from './routes/housing'
 import { Route as MissionPerformanceRouteImport } from './routes/mission-performance'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as SolidWasteRouteImport } from './routes/solid-waste'
 import { Route as UlbPerformanceRouteImport } from './routes/ulb-performance'
 import { Route as UrbanHealthRouteImport } from './routes/urban-health'
@@ -49,6 +50,11 @@ const MissionPerformanceRoute = MissionPerformanceRouteImport.update({
   path: '/mission-performance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SolidWasteRoute = SolidWasteRouteImport.update({
   id: '/solid-waste',
   path: '/solid-waste',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/grievance': typeof GrievanceRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
+  '/projects': typeof ProjectsRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
   '/urban-health': typeof UrbanHealthRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/grievance': typeof GrievanceRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
+  '/projects': typeof ProjectsRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
   '/urban-health': typeof UrbanHealthRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/grievance': typeof GrievanceRoute
   '/housing': typeof HousingRoute
   '/mission-performance': typeof MissionPerformanceRoute
+  '/projects': typeof ProjectsRoute
   '/solid-waste': typeof SolidWasteRoute
   '/ulb-performance': typeof UlbPerformanceRoute
   '/urban-health': typeof UrbanHealthRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/grievance'
     | '/housing'
     | '/mission-performance'
+    | '/projects'
     | '/solid-waste'
     | '/ulb-performance'
     | '/urban-health'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/grievance'
     | '/housing'
     | '/mission-performance'
+    | '/projects'
     | '/solid-waste'
     | '/ulb-performance'
     | '/urban-health'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/grievance'
     | '/housing'
     | '/mission-performance'
+    | '/projects'
     | '/solid-waste'
     | '/ulb-performance'
     | '/urban-health'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   GrievanceRoute: typeof GrievanceRoute
   HousingRoute: typeof HousingRoute
   MissionPerformanceRoute: typeof MissionPerformanceRoute
+  ProjectsRoute: typeof ProjectsRoute
   SolidWasteRoute: typeof SolidWasteRoute
   UlbPerformanceRoute: typeof UlbPerformanceRoute
   UrbanHealthRoute: typeof UrbanHealthRoute
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MissionPerformanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/solid-waste': {
       id: '/solid-waste'
       path: '/solid-waste'
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   GrievanceRoute: GrievanceRoute,
   HousingRoute: HousingRoute,
   MissionPerformanceRoute: MissionPerformanceRoute,
+  ProjectsRoute: ProjectsRoute,
   SolidWasteRoute: SolidWasteRoute,
   UlbPerformanceRoute: UlbPerformanceRoute,
   UrbanHealthRoute: UrbanHealthRoute,
