@@ -62,19 +62,43 @@ function Page() {
 
       <div className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         <KpiCard label="Units sanctioned" value={d.kpis.sanctioned.toLocaleString("en-IN")} unit="houses" />
-        <KpiCard label="Units grounded" value={d.kpis.grounded.toLocaleString("en-IN")} unit="houses" delta={2.7} />
+        <KpiCard
+          label="Units grounded"
+          value={d.kpis.grounded.toLocaleString("en-IN")}
+          unit="houses"
+          progress={d.kpis.groundingRate}
+          hint={`Grounding rate ${d.kpis.groundingRate}%`}
+          delta={2.7}
+        />
         <KpiCard
           label="Units completed"
           value={d.kpis.completed.toLocaleString("en-IN")}
           unit="houses"
           progress={completionPct}
           tone={completionPct > 70 ? "good" : "warn"}
-          hint={`${completionPct}% of sanctioned`}
+          hint={`Completion rate ${d.kpis.completionRate}% of sanctioned`}
         />
-        <KpiCard label="Units occupied" value={d.kpis.occupied.toLocaleString("en-IN")} unit="houses" tone="good" />
-        <KpiCard label="Subsidy released" value={`₹${d.kpis.subsidyReleasedCr}`} unit="crore" delta={4.1} />
-        <KpiCard label="Average completion time" value={d.kpis.avgCompletionDays} unit="days" tone={d.kpis.avgCompletionDays > 500 ? "bad" : "warn"} />
+        <KpiCard
+          label="Units occupied"
+          value={d.kpis.occupied.toLocaleString("en-IN")}
+          unit="houses"
+          tone="good"
+          hint={`Occupancy rate ${d.kpis.occupancyRate}%`}
+        />
+        <KpiCard
+          label="Central assistance approved"
+          value={`₹${d.kpis.centralApprovedCr.toLocaleString("en-IN")}`}
+          unit="crore"
+        />
+        <KpiCard
+          label="Central assistance released"
+          value={`₹${d.kpis.centralReleasedCr.toLocaleString("en-IN")}`}
+          unit="crore"
+          delta={4.1}
+          hint={`${((d.kpis.centralReleasedCr / Math.max(1, d.kpis.centralApprovedCr)) * 100).toFixed(1)}% of approved`}
+        />
       </div>
+
 
       <div className="mb-5 grid gap-4 xl:grid-cols-3">
         <SectionCard title="Construction pipeline" description="Units at each stage of construction">
