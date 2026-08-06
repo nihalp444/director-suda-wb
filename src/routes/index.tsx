@@ -33,7 +33,7 @@ import {
 } from "@/components/suda/ui-kit";
 import { NAV_ITEMS } from "@/components/suda/app-sidebar";
 import { useDistrict } from "@/lib/district-context";
-import { cockpit, ragOf, ulbPerformance } from "@/lib/suda-data";
+import { STATE_FACTS, cockpit, ragOf, ulbPerformance } from "@/lib/suda-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
