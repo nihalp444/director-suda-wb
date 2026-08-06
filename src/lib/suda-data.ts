@@ -522,12 +522,16 @@ export function housing(district: string) {
       completed: Math.round(rand(`${district}hm${i}`, 50, 1200) * k),
       instalments: Math.round(rand(`${district}hi${i}`, 80, 1600) * k),
     })),
-    ulbs: ulbNames(district).map((u) => ({
-      ulb: u,
-      sanctioned: Math.round(rand(`${district}${u}s`, 200, 5000)),
-      completed: Math.round(rand(`${district}${u}c`, 80, 4200)),
-      geoTagPct: rand(`${district}${u}g`, 55, 100, 1),
-    })),
+    ulbs: ulbNames(district).map((u) => {
+      const s = Math.round(rand(`${district}${u}s`, 200, 5000));
+      return {
+        ulb: u,
+        sanctioned: s,
+        completed: Math.round((s * rand(`${district}${u}c`, 38, 82, 1)) / 100),
+        geoTagPct: rand(`${district}${u}g`, 55, 100, 1),
+      };
+    }),
+
     exceptions: exceptions(district, "housing", 6),
   };
 }
