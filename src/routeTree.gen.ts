@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UlbPerformanceRouteImport } from './routes/ulb-performance'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UlbPerformanceRoute = UlbPerformanceRouteImport.update({
+  id: '/ulb-performance',
+  path: '/ulb-performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/ulb-performance'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/ulb-performance'
+  id: '__root__' | '/' | '/ulb-performance'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  UlbPerformanceRoute: typeof UlbPerformanceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ulb-performance': {
+      id: '/ulb-performance'
+      path: '/ulb-performance'
+      fullPath: '/ulb-performance'
+      preLoaderRoute: typeof UlbPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  UlbPerformanceRoute: UlbPerformanceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
