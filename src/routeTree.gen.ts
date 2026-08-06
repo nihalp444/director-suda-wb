@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FundUtilisationRouteImport } from './routes/fund-utilisation'
+import { Route as MissionPerformanceRouteImport } from './routes/mission-performance'
 import { Route as UlbPerformanceRouteImport } from './routes/ulb-performance'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const FundUtilisationRoute = FundUtilisationRouteImport.update({
   path: '/fund-utilisation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MissionPerformanceRoute = MissionPerformanceRouteImport.update({
+  id: '/mission-performance',
+  path: '/mission-performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UlbPerformanceRoute = UlbPerformanceRouteImport.update({
   id: '/ulb-performance',
   path: '/ulb-performance',
@@ -32,30 +38,40 @@ const UlbPerformanceRoute = UlbPerformanceRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/mission-performance': typeof MissionPerformanceRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/mission-performance': typeof MissionPerformanceRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/fund-utilisation': typeof FundUtilisationRoute
+  '/mission-performance': typeof MissionPerformanceRoute
   '/ulb-performance': typeof UlbPerformanceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fund-utilisation' | '/ulb-performance'
+  fullPaths:
+    '/' | '/fund-utilisation' | '/mission-performance' | '/ulb-performance'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fund-utilisation' | '/ulb-performance'
-  id: '__root__' | '/' | '/fund-utilisation' | '/ulb-performance'
+  to: '/' | '/fund-utilisation' | '/mission-performance' | '/ulb-performance'
+  id:
+    | '__root__'
+    | '/'
+    | '/fund-utilisation'
+    | '/mission-performance'
+    | '/ulb-performance'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FundUtilisationRoute: typeof FundUtilisationRoute
+  MissionPerformanceRoute: typeof MissionPerformanceRoute
   UlbPerformanceRoute: typeof UlbPerformanceRoute
 }
 
@@ -75,6 +91,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FundUtilisationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mission-performance': {
+      id: '/mission-performance'
+      path: '/mission-performance'
+      fullPath: '/mission-performance'
+      preLoaderRoute: typeof MissionPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ulb-performance': {
       id: '/ulb-performance'
       path: '/ulb-performance'
@@ -88,6 +111,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FundUtilisationRoute: FundUtilisationRoute,
+  MissionPerformanceRoute: MissionPerformanceRoute,
   UlbPerformanceRoute: UlbPerformanceRoute,
 }
 export const routeTree = rootRouteImport
