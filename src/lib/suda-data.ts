@@ -315,29 +315,31 @@ export function ulbPerformance(district: string) {
 
 export function fundUtilisation(district: string) {
   const k = Math.max(0.35, scale(district));
-  const schemes = MISSIONS.map((m) => {
-    const s = `${district}-fund-${m}`;
-    const allocation = Math.round(rand(s + "al", 400, 4200) * k);
-    const released = Math.round(allocation * rand(s + "rl", 0.6, 0.98, 2));
-    const utilised = Math.round(released * rand(s + "ut", 0.45, 0.97, 2));
-    const ucPending = Math.round(released - utilised * rand(s + "uc", 0.7, 1, 2));
+  const sh = share(district);
+  const schemes = STATE_SCHEME_FUNDS.map((row) => {
+    const allocation = +(row.allocation * sh).toFixed(2);
+    const released = +(row.released * sh).toFixed(2);
+    const utilised = +(row.utilised * sh).toFixed(2);
+    const ucPending = +(row.ucPending * sh).toFixed(2);
     return {
-      scheme: m,
+      scheme: row.scheme,
       allocation,
       released,
       utilised,
-      ucPending: Math.max(0, ucPending),
+      ucPending,
       utilisationPct: +((utilised / Math.max(1, released)) * 100).toFixed(1),
     };
   });
   return {
     schemes,
     totals: {
-      allocation: schemes.reduce((a, s) => a + s.allocation, 0),
-      released: schemes.reduce((a, s) => a + s.released, 0),
-      utilised: schemes.reduce((a, s) => a + s.utilised, 0),
-      ucPending: schemes.reduce((a, s) => a + s.ucPending, 0),
+      allocation: +(STATE_FY_FUNDS.allocation * sh).toFixed(2),
+      released: +(STATE_FY_FUNDS.released * sh).toFixed(2),
+      utilised: +(STATE_FY_FUNDS.utilised * sh).toFixed(2),
+      ucPending: +((STATE_FY_FUNDS.released - STATE_FY_FUNDS.utilised) * sh).toFixed(2),
+      utilisationRate: STATE_FY_FUNDS.utilisationRate,
     },
+
     ageing: [
       { bucket: "0-3 months", value: Math.round(rand(district + "a1", 40, 300) * k) },
       { bucket: "3-6 months", value: Math.round(rand(district + "a2", 30, 220) * k) },
