@@ -32,6 +32,7 @@ import {
   tooltipStyle,
 } from "@/components/suda/ui-kit";
 import { NAV_ITEMS } from "@/components/suda/app-sidebar";
+import { AiInsightsPanel } from "@/components/suda/ai-insights";
 import { useDistrict } from "@/lib/district-context";
 import { STATE_FACTS, cockpit, ragOf, ulbPerformance } from "@/lib/suda-data";
 
@@ -55,7 +56,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Cockpit() {
-  const { district } = useDistrict();
+  const { district, fy } = useDistrict();
   const d = cockpit(district);
   const scorecard = ulbPerformance(district).slice(0, 6);
 
@@ -149,6 +150,8 @@ function Cockpit() {
         <KpiCard label="Active incidents" value={d.kpis.activeIncidents} unit="open" tone="bad" delta={-6.3} hint="Water, drainage, sanitation & health" />
         <KpiCard label="Data completeness" value={d.kpis.dataCompleteness} unit="%" progress={d.kpis.dataCompleteness} tone="good" delta={1.2} />
       </div>
+
+      <AiInsightsPanel kpis={d.kpis} alerts={d.alerts} district={d.profile.name} fy={fy} />
 
       <div className="mb-5 grid gap-4 xl:grid-cols-3">
         <SectionCard title="Utilisation & grievance trend" description="Monthly movement across the financial year" className="xl:col-span-2">
