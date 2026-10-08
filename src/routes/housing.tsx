@@ -31,6 +31,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Progress } from "@/components/ui/progress";
 import { useDistrict } from "@/lib/district-context";
 import { housing, ragOf } from "@/lib/suda-data";
+import { HousingAiAuditStudio } from "@/components/suda/housing-ai-audit";
 
 export const Route = createFileRoute("/housing")({
   head: () => ({
@@ -99,6 +100,7 @@ function Page() {
         />
       </div>
 
+      <HousingAiAuditStudio />
 
       <div className="mb-5 grid gap-4 xl:grid-cols-3">
         <SectionCard title="Construction pipeline" description="Units at each stage of construction">

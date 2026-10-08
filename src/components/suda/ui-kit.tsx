@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Home, ChevronLeft } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -16,13 +17,29 @@ import { useDistrict } from "@/lib/district-context";
 
 export function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
   const { district, fy } = useDistrict();
+  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const isHome = pathname === "/";
+
   return (
     <div className="mb-6">
-      <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-        <span className="rounded-full bg-accent px-2 py-0.5 font-medium text-accent-foreground">{district}</span>
-        <span>FY {fy}</span>
-        <span>· Last synced 06:00 hrs</span>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+          <span className="rounded-full bg-accent px-2 py-0.5 font-medium text-accent-foreground">{district}</span>
+          <span>FY {fy}</span>
+          <span>· Last synced 06:00 hrs</span>
+        </div>
+
+        {!isHome && (
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1 text-xs font-semibold text-foreground shadow-xs transition-colors hover:border-primary/50 hover:bg-accent hover:text-primary"
+          >
+            <Home className="h-3.5 w-3.5 text-primary" />
+            <span>Back to Cockpit</span>
+          </Link>
+        )}
       </div>
+
       <h1 className="mt-2 text-2xl font-bold text-foreground md:text-3xl">{title}</h1>
       <p className="mt-1 max-w-3xl text-sm text-muted-foreground">{subtitle}</p>
     </div>

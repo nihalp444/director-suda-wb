@@ -23,6 +23,7 @@ import {
 } from "@/components/suda/ui-kit";
 import { useDistrict } from "@/lib/district-context";
 import { grievance } from "@/lib/suda-data";
+import { GrievanceAiTriage } from "@/components/suda/grievance-ai-triage";
 
 export const Route = createFileRoute("/grievance")({
   head: () => ({
@@ -59,6 +60,8 @@ function Page() {
         <KpiCard label="SLA compliance" value={d.kpis.slaCompliance} unit="%" progress={d.kpis.slaCompliance} />
         <KpiCard label="Escalated to Director" value={d.kpis.escalated} unit="cases" tone="bad" />
       </div>
+
+      <GrievanceAiTriage />
 
       <div className="mb-5 grid gap-4 xl:grid-cols-3">
         <SectionCard title="Received vs resolved" description="Monthly grievance flow" className="xl:col-span-2">

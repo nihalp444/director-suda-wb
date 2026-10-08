@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
-import { Sparkles, ChevronRight, Copy, FileText, Info } from "lucide-react";
+import { Sparkles, ChevronRight, Copy, FileText, Info, Download } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { downloadGovernmentMemo } from "@/lib/export-utils";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { RagBadge, SectionCard } from "@/components/suda/ui-kit";
 import type { ExceptionRow } from "@/lib/suda-data";
@@ -106,13 +107,15 @@ export function AiInsightsPanel({ kpis, alerts, district, fy }: { kpis: Kpis; al
 
   return (
     <SectionCard
-      title="AI Insights"
-      description="Top three ranked signals from this cockpit's indicators and exception register"
+      title="State AI Command Intelligence"
+      description="Active decision-support across 8 municipal domains — multi-source anomaly ranking & automated brief generation"
       className="mb-5 border-t-2 border-t-gold"
       action={
-        <span className="inline-flex items-center gap-1 rounded-full bg-gold/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gold-foreground">
-          <Sparkles className="h-3 w-3 text-gold" /> Prototype
-        </span>
+        <div className="flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-1 rounded-full bg-gold/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gold-foreground border border-gold/30">
+            <Sparkles className="h-3 w-3 text-gold" /> 8-Domain Engine Active
+          </span>
+        </div>
       }
     >
       <div className="grid gap-3 md:grid-cols-3">
@@ -218,13 +221,37 @@ export function AiInsightsPanel({ kpis, alerts, district, fy }: { kpis: Kpis; al
                   </div>
                 )}
 
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {brief && (
-                    <Button variant="outline" className="flex-1" onClick={copy}>
-                      <Copy className="mr-1.5 h-4 w-4" /> Copy brief
-                    </Button>
+                    <>
+                      <Button
+                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 text-xs font-semibold gap-1.5"
+                        onClick={() => {
+                          downloadGovernmentMemo({
+                            title: `Executive Decision Brief: ${selected.kpiName} (${selected.alert.location})`,
+                            scheme: selected.source,
+                            jurisdiction: district,
+                            content: brief,
+                            metadata: {
+                              "Exception ID": selected.alert.id,
+                              "Location": selected.alert.location,
+                              "Accountable Officer": selected.alert.officer,
+                              "Current Gap": `${selected.gap > 0 ? selected.gap : 0} points`,
+                              "Resolution Deadline": selected.alert.deadline,
+                              "Pending Decision": selected.alert.decision
+                            }
+                          });
+                          toast.success("Downloaded Decision Brief Memorandum (Printable PDF ready)");
+                        }}
+                      >
+                        <Download className="h-3.5 w-3.5" /> Download Brief (PDF/HTML)
+                      </Button>
+                      <Button variant="outline" className="flex-1 text-xs" onClick={copy}>
+                        <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy
+                      </Button>
+                    </>
                   )}
-                  <Button variant="secondary" className="flex-1" onClick={close}>
+                  <Button variant="secondary" className="flex-1 text-xs" onClick={close}>
                     Close
                   </Button>
                 </div>

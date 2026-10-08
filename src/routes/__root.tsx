@@ -16,6 +16,7 @@ import { DistrictProvider } from "@/lib/district-context";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/suda/app-sidebar";
 import { TopBar } from "@/components/suda/top-bar";
+import { SudaAiAssistant } from "@/components/suda/ai-assistant";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -155,6 +156,7 @@ function RootComponent() {
             </div>
           </div>
         </SidebarProvider>
+        <SudaAiAssistant />
         <Toaster />
       </DistrictProvider>
     </QueryClientProvider>

@@ -24,6 +24,7 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useDistrict } from "@/lib/district-context";
 import { ragOf, revenue } from "@/lib/suda-data";
+import { RevenueIntelligencePanel } from "@/components/suda/revenue-intelligence";
 
 export const Route = createFileRoute("/revenue")({
   head: () => ({
@@ -66,6 +67,8 @@ function Page() {
         <KpiCard label="Digital payment share" value={d.kpis.onlineSharePct} unit="%" progress={d.kpis.onlineSharePct} delta={7.3} />
         <KpiCard label="New assessments" value={d.kpis.newAssessments.toLocaleString("en-IN")} unit="properties" tone="good" />
       </div>
+
+      <RevenueIntelligencePanel />
 
       <div className="mb-5 grid gap-4 xl:grid-cols-2">
         <SectionCard title="Head-wise demand vs collection" description="₹ crore, current financial year">

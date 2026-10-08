@@ -55,7 +55,12 @@ export function AppSidebar() {
           {!collapsed && (
             <div className="leading-tight">
               <p className="text-sm font-semibold">SUDA Command Centre</p>
-              <p className="text-[11px] text-sidebar-foreground/70">Director, SUDA · Govt. of W.B.</p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <p className="text-[11px] text-sidebar-foreground/70">Director, SUDA · W.B.</p>
+                <span className="inline-flex items-center gap-1 rounded bg-gold/20 px-1 py-0.2 text-[9px] font-bold text-gold">
+                  AI Active
+                </span>
+              </div>
             </div>
           )}
         </div>

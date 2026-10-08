@@ -26,6 +26,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useDistrict } from "@/lib/district-context";
 import { urbanHealth } from "@/lib/suda-data";
+import { VectorOutbreakPredictor } from "@/components/suda/vector-outbreak-predictor";
 
 export const Route = createFileRoute("/urban-health")({
   head: () => ({
@@ -62,6 +63,8 @@ function Page() {
         <KpiCard label="Larval survey coverage" value={d.kpis.larvalSurveyPct} unit="%" progress={d.kpis.larvalSurveyPct} />
         <KpiCard label="Immunisation coverage" value={d.kpis.immunisationPct} unit="%" progress={d.kpis.immunisationPct} tone="good" />
       </div>
+
+      <VectorOutbreakPredictor />
 
       <div className="mb-5 grid gap-4 xl:grid-cols-3">
         <SectionCard title="Vector-borne disease trend" description="Monthly confirmed cases" className="xl:col-span-2">

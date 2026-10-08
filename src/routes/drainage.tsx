@@ -27,6 +27,7 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useDistrict } from "@/lib/district-context";
 import { drains, ragOf } from "@/lib/suda-data";
+import { SatelliteEncroachmentDetector } from "@/components/suda/satellite-encroachment";
 
 export const Route = createFileRoute("/drainage")({
   head: () => ({
@@ -76,6 +77,8 @@ function Page() {
           tone={d.kpis.monsoonReadiness > 80 ? "good" : "warn"}
         />
       </div>
+
+      <SatelliteEncroachmentDetector />
 
       <div className="mb-5 grid gap-4 xl:grid-cols-3">
         <SectionCard title="Rainfall vs waterlogging incidents" description="Monthly rainfall (mm) against reported incidents" className="xl:col-span-2">
