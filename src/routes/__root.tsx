@@ -15,6 +15,7 @@ import { DistrictProvider } from "@/lib/district-context";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/suda/app-sidebar";
 import { TopBar } from "@/components/suda/top-bar";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -153,6 +154,7 @@ function RootComponent() {
             </div>
           </div>
         </SidebarProvider>
+        <Toaster />
       </DistrictProvider>
     </QueryClientProvider>
   );
